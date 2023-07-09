@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Referees index{% endblock %}
+
+{% block body %}
+    <h1>Referees index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Start_date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for referee in referees %}
+            <tr>
+                <td>{{ referee.id }}</td>
+                <td>{{ referee.name }}</td>
+                <td>{{ referee.startDate }}</td>
+                <td>
+                    <a href="{{ path('app_referees_show', {'id': referee.id}) }}">show</a>
+                    <a href="{{ path('app_referees_edit', {'id': referee.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_referees_new') }}">Create new</a>
+{% endblock %}
