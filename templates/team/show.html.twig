@@ -24,8 +24,11 @@
                 <td>{{ team.coach }}</td>
             </tr>
             <tr>
-                <th>Sponsor</th>
-                <td>{{ team.sponsor }}</td>
+                <th>Sponsors</th>
+                {%for sponsor in team.sponsors %}
+                <td>{{ sponsor.name }}</td>
+                {% endfor %}
+
             </tr>
         </tbody>
     </table>

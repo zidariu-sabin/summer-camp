@@ -53,6 +53,7 @@ class TeamController extends AbstractController
     #[Route('/{id}/edit', name: 'app_team_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Team $team, TeamRepository $teamRepository): Response
     {
+     //   dd($team);
         $form = $this->createForm(TeamType::class, $team);
         $form->handleRequest($request);
 
