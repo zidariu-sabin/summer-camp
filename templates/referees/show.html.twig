@@ -19,6 +19,13 @@
                 <th>Start_date</th>
                 <td>{{ referee.startDate }}</td>
             </tr>
+            <tr>
+                <th>Refereed matches: </th>
+                {% for match in referee.matches %}
+{#            <td>{{match.team1.name}} vs {{ match.team2.name }}</td>#}
+                    <td>{{ match.getName() }}</td>
+                {% endfor %}
+            </tr>
         </tbody>
     </table>
 

@@ -93,10 +93,12 @@ class Matches
     /**
      * @return Collection<int, Referees>
      */
+
     public function getReferees(): Collection
     {
         return $this->referees;
     }
+
 
     public function addReferee(Referees $referee): static
     {
@@ -113,8 +115,13 @@ class Matches
 
         return $this;
     }
-//    public function __tostring()
-//    {
-//        return$this->getName();
-//    }
+    public function getName(): string
+    {
+        return $this->team1->getName() . ' vs ' . $this->team2->getName();
+    }
+
+    public function __tostring()
+    {
+        return$this->getName();
+    }
 }

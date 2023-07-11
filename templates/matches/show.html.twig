@@ -19,6 +19,12 @@
                 <th>{{ match.team2 }}</th>
                 <td>{{ match.score2 }}</td>
             </tr>
+            <tr>
+                <th>Referees of the game</th>
+                {% for referees in match.referees %}
+                <td>{{ referees.name }}</td>
+                {% endfor %}
+            </tr>
         </tbody>
     </table>
 
