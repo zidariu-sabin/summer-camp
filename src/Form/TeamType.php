@@ -18,11 +18,14 @@ class  TeamType extends AbstractType
             ->add('creationDate')
             ->add('coach')
 //            ->add('sponsor')
-            ->add('sponsors',EntityType::class, array(
-                'class'    =>Sponsor::class,
-                'expanded' =>true,
-                'multiple' =>true,
-            ))
+//            ->add('sponsors',EntityType::class, array(
+//                'class'    =>Sponsor::class,
+//                'expanded' =>true,
+//                'multiple' =>true,
+//            ))
+            ->add('wins')
+            ->add('losses')
+            ->add('draws')
         ;
     }
 

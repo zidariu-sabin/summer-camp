@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TeamRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -20,7 +21,7 @@ class Team
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationDate = null;
+    private ?DateTimeInterface $creationDate= null;
 
     #[ORM\Column(length: 255)]
     private ?string $coach = null;
@@ -36,6 +37,15 @@ class Team
 
     #[ORM\OneToMany(mappedBy: 'team1', targetEntity: Matches::class)]
     private Collection $matches;
+
+    #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0])]
+    private ?int $wins = 0;
+
+    #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0]), ]
+    private ?int $losses = 0;
+
+    #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0])]
+    private ?int $draws = 0;
 
     public function __construct()
     {
@@ -188,6 +198,42 @@ class Team
     public function __tostring()
     {
         return$this->getName();
+    }
+
+    public function getWins(): ?int
+    {
+        return $this->wins;
+    }
+
+    public function setWins(int $wins): static
+    {
+        $this->wins = $wins;
+
+        return $this;
+    }
+
+    public function getLosses(): ?int
+    {
+        return $this->losses;
+    }
+
+    public function setLosses(int $losses): static
+    {
+        $this->losses = $losses;
+
+        return $this;
+    }
+
+    public function getDraws(): ?int
+    {
+        return $this->draws;
+    }
+
+    public function setDraws(int $draws): static
+    {
+        $this->draws = $draws;
+
+        return $this;
     }
 
 }

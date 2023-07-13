@@ -23,11 +23,11 @@ class Matches
     #[ORM\JoinColumn(nullable: false)]
     private ?Team $team2 = null;
 
-    #[ORM\Column]
-    private ?int $score1 = null;
+    #[ORM\Column( nullable:false)]
+    private ?int $score1 = 0;
 
-    #[ORM\Column]
-    private ?int $score2 = null;
+    #[ORM\Column( nullable:false)]
+    private ?int $score2 = 0;
 
     #[ORM\ManyToMany(targetEntity: Referees::class, inversedBy: 'matches')]
     private Collection $referees;
@@ -71,16 +71,52 @@ class Matches
         return $this->score1;
     }
 
+//    public function setScore1(int $score1): static
+//    {
+//        if ($this->getTeam1() !== null/*&&$this->team1->getWins!==null&&$this->team1->getLosses!==null&&$this->team1->getLosse!==null*/) {
+//            $this->score1 = $score1;
+//            if ($score1 > $this->score2) {
+//                $this->team1->setWins($this->team1->getWins() + 1);
+//              //  $this->team2->setLosses($this->team2->getLosses() + 1);
+//            } elseif ($score1 == $this->score2) {
+//                $this->team1->setDraws($this->team1->getDraws() + 1);
+//             //   $this->team2->setDraws($this->team2->getDraws() + 1);
+//            } elseif ($score1 < $this->score2) {
+//                $this->team1->setLosses($this->team1->getLosses() + 1);
+//              //  $this->team2->setWins($this->team2->getWins() + 1);
+//            }
+//        }
+//
+//        return $this;
+//    }
+
+//    public function setScore2(int $score2): static
+//    {   if($this->getTeam2() !== null) {
+//        $this->score2 = $score2;
+//        if ($this->score1 > $score2) {
+//            //  $this->team1->setWins($this->team1->getWins()+1);
+//            $this->team2->setLosses($this->team2->getLosses() + 1);
+//        } elseif ($this->score1 == $score2) {
+//            //   $this->team1->setDraws($this->team1->getDraws()+1);
+//            $this->team2->setDraws($this->team2->getDraws() + 1);
+//        } elseif ($this->score1 < $score2) {
+//            //$this->team1->setLosses($this->team1->getLosses()+1);
+//            $this->team2->setWins($this->team2->getWins() + 1);
+//        }
+//    }
+//
+//        return $this;
+//    }
+
+    public function getScore2(): ?int
+    {
+        return $this->score2;
+    }
     public function setScore1(int $score1): static
     {
         $this->score1 = $score1;
 
         return $this;
-    }
-
-    public function getScore2(): ?int
-    {
-        return $this->score2;
     }
 
     public function setScore2(int $score2): static
