@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 class Team
@@ -40,13 +43,32 @@ class Team
 
     #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0])]
     private ?int $wins = 0;
-
     #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0]), ]
     private ?int $losses = 0;
 
     #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0])]
     private ?int $draws = 0;
 
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'min' => 5,
+            'max' => 10,
+
+            'minMessage' => 'Your team name must be at least {{ limit }} characters long',
+            'maxMessage' => 'Your team name cannot be longer than {{ limit }} characters',
+        ]));
+//        $metadata->addGetterConstraint('nameinbounds',new Assert\IsTrue([
+//            'message' =>'The name must be between {{min}} to {{max}} characters long',
+//
+//        ]));
+
+    }
+//    public function isnameinbounds(): bool
+//    {   $namesize =strlen($this->name);
+//        return ($namesize>5 &&$namesize<10);
+//    }
     public function __construct()
     {
         $this->members = new ArrayCollection();
