@@ -106,15 +106,21 @@ class MatchesController extends AbstractController
                 $score2 = $originalscore2;
 
                 if ($score1 > $score2) {
+                    if($wins1!=0)
                     $team1->setWins($wins1 - 1);
+                    if($losses2!=0)
                     $team2->setLosses($losses2 - 1);
                 }
                 if ($score1 == $score2) {
+                    if($draws1!=0)
                     $team1->setDraws($draws1 - 1);
+                    if($draws2!=0)
                     $team2->setDraws($draws2 - 1);
                 }
                 if ($score1 < $score2) {
+                    if($losses2!=0)
                     $team1->setLosses($losses1 - 1);
+                    if($wins2!=0)
                     $team2->setWins($wins2 - 1);
                 }
                 $this->UpdateStats($match, $entityManager);

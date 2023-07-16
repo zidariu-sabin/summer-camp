@@ -49,6 +49,15 @@ class Team
     #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0])]
     private ?int $draws = 0;
 
+    #[ORM\ManyToMany(targetEntity: Competition::class, mappedBy: 'teams')]
+    private Collection $competitions;
+
+    #[ORM\Column(type:'integer',nullable:true)]
+    private ?int $points_scored = 0;
+
+    #[ORM\Column(type:'float',nullable:true)]
+    private ?float $goal_average;
+
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
@@ -75,6 +84,7 @@ class Team
         $this->sponsors = new ArrayCollection();
         $this->matches = new ArrayCollection();
         $this->creationDate = new \DateTime();
+        $this->competitions = new ArrayCollection();
 
     }
 
@@ -258,4 +268,54 @@ class Team
         return $this;
     }
 
+    /**
+     * @return Collection<int, Competition>
+     */
+    public function getCompetitions(): Collection
+    {
+        return $this->competitions;
+    }
+
+    public function addCompetition(Competition $competition): static
+    {
+        if (!$this->competitions->contains($competition)) {
+            $this->competitions->add($competition);
+            $competition->addTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetition(Competition $competition): static
+    {
+        if ($this->competitions->removeElement($competition)) {
+            $competition->removeTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function getpoints_scored(): ?int
+    {
+        return $this->points_scored;
+    }
+
+    public function setpoints_scored(int $points_scored): static
+    {
+        $this->points_scored = $points_scored;
+
+        return $this;
+    }
+
+    public function getgoal_average(): ?float
+    {
+        return $this->goal_average;
+    }
+
+    public function setgoal_average(float $goal_average): static
+    {
+        $this->goal_average = $goal_average;
+
+        return $this;
+    }
 }

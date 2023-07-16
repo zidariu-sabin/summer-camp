@@ -23,14 +23,17 @@ class Matches
     #[ORM\JoinColumn(nullable: false)]
     private ?Team $team2 = null;
 
-    #[ORM\Column( nullable:false)]
+    #[ORM\Column( nullable:true)]
     private ?int $score1 = 0;
 
-    #[ORM\Column( nullable:false)]
+    #[ORM\Column( nullable:true)]
     private ?int $score2 = 0;
 
     #[ORM\ManyToMany(targetEntity: Referees::class, inversedBy: 'matches')]
     private Collection $referees;
+
+    #[ORM\ManyToOne(inversedBy: 'matches')]
+    private ?Competition $competition = null;
 
     public function __construct()
     {
@@ -159,5 +162,17 @@ class Matches
     public function __tostring()
     {
         return$this->getName();
+    }
+
+    public function getCompetition(): ?Competition
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?Competition $competition): static
+    {
+        $this->competition = $competition;
+
+        return $this;
     }
 }
