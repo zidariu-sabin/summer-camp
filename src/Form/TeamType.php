@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Form;
-
 use App\Entity\Sponsor;
 use App\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
