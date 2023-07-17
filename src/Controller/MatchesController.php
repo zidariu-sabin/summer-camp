@@ -100,7 +100,7 @@ class MatchesController extends AbstractController
 
             $updatedscore1 = $match->getScore1();
             $updatedscore2 = $match->getScore2();
-            if ($originalscore1 != $updatedscore1 || $originalscore2 != $updatedscore2) {
+            if ($originalscore1 !== $updatedscore1 || $originalscore2 !== $updatedscore2) {
 
                 $score1 = $originalscore1;
                 $score2 = $originalscore2;
@@ -147,15 +147,21 @@ class MatchesController extends AbstractController
             $score2 = $match->getScore2();
 
             if ($score1 > $score2) {
+                if($team1->getWins()!=0)
                 $team1->setWins($team1->getWins() - 1);
+                if($team2->getLosses()!=0)
                 $team2->setLosses($team2->getLosses() - 1);
             }
             if ($score1 == $score2) {
+                if($team1->getDraws()!=0)
                 $team1->setDraws($team1->getDraws() - 1);
+                if($team2->getDraws()!=0)
                 $team2->setDraws($team2->getDraws() - 1);
             }
             if ($score1 < $score2) {
+                if($team1->getLosses()!=0)
                 $team1->setLosses($team1->getLosses() - 1);
+                if($team2->getWins()!=0)
                 $team2->setWins($team2->getWins() - 1);
             }
             $matchesRepository->remove($match, true);

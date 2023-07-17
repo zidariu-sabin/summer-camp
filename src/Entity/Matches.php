@@ -24,10 +24,10 @@ class Matches
     private ?Team $team2 = null;
 
     #[ORM\Column( nullable:true)]
-    private ?int $score1 = 0;
+    private ?int $score1 = null;
 
     #[ORM\Column( nullable:true)]
-    private ?int $score2 = 0;
+    private ?int $score2 =null;
 
     #[ORM\ManyToMany(targetEntity: Referees::class, inversedBy: 'matches')]
     private Collection $referees;

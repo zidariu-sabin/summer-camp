@@ -49,6 +49,7 @@ class Team
     #[ORM\Column(type: 'integer',nullable:false, options: ['default' => 0])]
     private ?int $draws = 0;
 
+
     #[ORM\ManyToMany(targetEntity: Competition::class, mappedBy: 'teams')]
     private Collection $competitions;
 
@@ -56,7 +57,16 @@ class Team
     private ?int $points_scored = 0;
 
     #[ORM\Column(type:'float',nullable:true)]
-    private ?float $goal_average;
+    private ?float $goal_average=0 ;
+
+    #[ORM\Column]
+    private ?int $CompetitionWins = null;
+
+    #[ORM\Column]
+    private ?int $CompetitionDraws = null;
+
+    #[ORM\Column]
+    private ?int $CompetitionLosses = null;
 
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
@@ -64,7 +74,6 @@ class Team
         $metadata->addPropertyConstraint('name', new Assert\Length([
             'min' => 5,
             'max' => 10,
-
             'minMessage' => 'Your team name must be at least {{ limit }} characters long',
             'maxMessage' => 'Your team name cannot be longer than {{ limit }} characters',
         ]));
@@ -315,6 +324,42 @@ class Team
     public function setgoal_average(float $goal_average): static
     {
         $this->goal_average = $goal_average;
+
+        return $this;
+    }
+
+    public function getCompetitionWins(): ?int
+    {
+        return $this->CompetitionWins;
+    }
+
+    public function setCompetitionWins(int $CompetitionWins): static
+    {
+        $this->CompetitionWins = $CompetitionWins;
+
+        return $this;
+    }
+
+    public function getCompetitionDraws(): ?int
+    {
+        return $this->CompetitionDraws;
+    }
+
+    public function setCompetitionDraws(int $CompetitionDraws): static
+    {
+        $this->CompetitionDraws = $CompetitionDraws;
+
+        return $this;
+    }
+
+    public function getCompetitionLosses(): ?int
+    {
+        return $this->CompetitionLosses;
+    }
+
+    public function setCompetitionLosses(int $CompetitionLosses): static
+    {
+        $this->CompetitionLosses = $CompetitionLosses;
 
         return $this;
     }

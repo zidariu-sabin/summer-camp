@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Create new Team</h1>
-
+{#<pre>{{ dump(errors) }}</pre>#}
     {{ include('team/_form.html.twig') }}
 
     <a href="{{ path('app_team_index') }}">back to list</a>

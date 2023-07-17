@@ -30,16 +30,18 @@ class TeamController extends AbstractController
         $form = $this->createForm(TeamType::class, $team);
         $form->handleRequest($request);
        // dd($form);
-        //dump and die
         if ($form->isSubmitted() && $form->isValid()) {
             $teamRepository->save($team, true);
 
             return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
+        } elseif ($form->isSubmitted()) {
+          //  dd($form->getErrors());
         }
 
         return $this->renderForm('team/new.html.twig', [
             'team' => $team,
             'form' => $form,
+            'errors' => $form->getErrors(),
         ]);
     }
 

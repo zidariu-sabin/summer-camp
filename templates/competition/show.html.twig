@@ -1,0 +1,44 @@
+    {% extends 'base.html.twig' %}
+{% block title %}Competition{% endblock %}
+
+{% block body %}
+    <h1>Standings</h1>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Place</td>
+            <td>Team name</td>
+            <td>W</td>
+            <td>D</td>
+            <td>L</td>
+            <td>Points acquired</td>
+            <td>Goal Average</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for teams in competition.teams %}
+            <tr><td> {{ loop.index }}</td>
+                <td>{{ teams.name }}</td>
+                <td>{{ teams.CompetitionWins }}</td>
+                <td>{{ teams.CompetitionDraws }}</td>
+                <td>{{ teams.CompetitionLosses }}</td>
+                <td> {{ teams.points_scored }}</td>
+                <td>{{ teams.goal_average }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+    <a href="{{ path('app_competition_index') }}">back to list</a>
+
+    <a href="{{ path('app_competition_edit', {'id': competition.id}) }}">edit</a>
+
+    {{ include('competition/_delete_form.html.twig') }}
+{% endblock %}

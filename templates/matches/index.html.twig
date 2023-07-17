@@ -22,8 +22,8 @@
                 <td>{{ match.id }}</td>
                 <td>{{ match.team1 }}</td>
                 <td>{{ match.team2 }}</td>
-                <td>{{ match.score1 }}</td>
-                <td>{{ match.score2 }}</td>
+                <td>{{ match.score1 is null ? '-' : match.score1 }}</td>
+                <td>{{ match.score2 is null ? '-' : match.score2 }}</td>
             </tr>
             <tr>
 
