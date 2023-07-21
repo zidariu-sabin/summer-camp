@@ -82,20 +82,19 @@ class Competition
             foreach ($this->matches as $match) {
                 $score1=$match->getScore1();
                 $score2=$match->getScore2();
-                if ($match->getTeam1() === $team) {
-                    if($score1>$score2){
-                        $totalpoints+=2;
-                    }
-                    elseif($score1==$score2){
-                        $totalpoints+=1;
-                    }
-                }
-                elseif($match->getTeam2()===$team){
-                    if($score2>$score1){
-                        $totalpoints+=2;
-                    }
-                    elseif($score2==$score1){
-                        $totalpoints+=1;
+                if($score1!==null&&$score2!==null){
+                    if ($match->getTeam1() === $team) {
+                        if ($score1 > $score2) {
+                            $totalpoints += 2;
+                        } elseif ($score1 == $score2) {
+                            $totalpoints += 1;
+                        }
+                    } elseif ($match->getTeam2() === $team) {
+                        if ($score2 > $score1) {
+                            $totalpoints += 2;
+                        } elseif ($score2 == $score1) {
+                            $totalpoints += 1;
+                        }
                     }
                 }
             }
@@ -112,26 +111,23 @@ class Competition
                 foreach ($this->matches as $match) {
                     $score1=$match->getScore1();
                     $score2=$match->getScore2();
-                    if ($match->getTeam1() === $team) {
-                        if($score1>$score2){
-                            $totalwins++;
-                        }
-                        elseif($score1==$score2){
-                            $totaldraws++;
-                        }
-                        elseif($score1<$score2){
-                            $totallosses++;
-                        }
-                    }
-                    elseif($match->getTeam2()===$team){
-                        if($score2>$score1){
-                            $totalwins++;
-                        }
-                        elseif($score2==$score1){
-                            $totaldraws++;
-                        }
-                        elseif($score2<$score1){
-                            $totallosses++;
+                    if($score1!==null&&$score2!==null){
+                        if ($match->getTeam1() === $team) {
+                            if ($score1 > $score2) {
+                                $totalwins++;
+                            } elseif ($score1 == $score2) {
+                                $totaldraws++;
+                            } elseif ($score1 < $score2) {
+                                $totallosses++;
+                            }
+                        } elseif ($match->getTeam2() === $team) {
+                            if ($score2 > $score1) {
+                                $totalwins++;
+                            } elseif ($score2 == $score1) {
+                                $totaldraws++;
+                            } elseif ($score2 < $score1) {
+                                $totallosses++;
+                            }
                         }
                     }
                 }

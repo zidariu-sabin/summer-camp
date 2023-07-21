@@ -29,9 +29,9 @@
 
     </table>
 
-    <a href="{{ path('app_sponsor_index') }}">back to list</a>
+    <a class="btn btn-outline-dark" href="{{ path('app_sponsor_index') }}">back to list</a>
 
-    <a href="{{ path('app_sponsor_edit', {'id': sponsor.id}) }}">edit</a>
+    <a class="btn btn-outline-dark" href="{{ path('app_sponsor_edit', {'id': sponsor.id}) }}">edit</a>
 
     {{ include('sponsor/_delete_form.html.twig') }}
 {% endblock %}

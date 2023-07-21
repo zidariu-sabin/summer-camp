@@ -3,9 +3,9 @@
 {% block title %}New Referees{% endblock %}
 
 {% block body %}
-    <h1>Create new Referees</h1>
+    <h1>Create a new Referees</h1>
 
     {{ include('referees/_form.html.twig') }}
 
-    <a href="{{ path('app_referees_index') }}">back to list</a>
+    <a class="btn btn-outline-dark" href="{{ path('app_referees_index') }}">back to list</a>
 {% endblock %}

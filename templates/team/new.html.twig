@@ -3,9 +3,9 @@
 {% block title %}New Team{% endblock %}
 
 {% block body %}
-    <h1>Create new Team</h1>
+    <h1>Create a new Team</h1>
 {#<pre>{{ dump(errors) }}</pre>#}
     {{ include('team/_form.html.twig') }}
 
-    <a href="{{ path('app_team_index') }}">back to list</a>
+    <a class="btn btn-outline-dark" href="{{ path('app_team_index') }}">back to list</a>
 {% endblock %}

@@ -7,7 +7,10 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Faker\Factory;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -59,21 +62,21 @@ class Team
     #[ORM\Column(type:'float',nullable:true)]
     private ?float $goal_average=0 ;
 
-    #[ORM\Column]
-    private ?int $CompetitionWins = null;
+    #[ORM\Column(type: 'integer',nullable:true, options: ['default' => 0])]
+    private ?int $CompetitionWins = 0;
 
-    #[ORM\Column]
-    private ?int $CompetitionDraws = null;
+    #[ORM\Column(type: 'integer',nullable:true, options: ['default' => 0])]
+    private ?int $CompetitionDraws = 0;
 
-    #[ORM\Column]
-    private ?int $CompetitionLosses = null;
+    #[ORM\Column(type: 'integer',nullable:true, options: ['default' => 0])]
+    private ?int $CompetitionLosses = 0;
 
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('name', new Assert\Length([
-            'min' => 5,
-            'max' => 10,
+            'min' => 3,
+            'max' => 20,
             'minMessage' => 'Your team name must be at least {{ limit }} characters long',
             'maxMessage' => 'Your team name cannot be longer than {{ limit }} characters',
         ]));
@@ -83,6 +86,7 @@ class Team
 //        ]));
 
     }
+
 //    public function isnameinbounds(): bool
 //    {   $namesize =strlen($this->name);
 //        return ($namesize>5 &&$namesize<10);
@@ -96,6 +100,67 @@ class Team
         $this->competitions = new ArrayCollection();
 
     }
+
+    public function generateShirtNumber($randomNumber,$assignedNumbers)
+    {
+        while (in_array($randomNumber, $assignedNumbers)) {
+            $randomNumber = rand(1, 90);
+        }
+        return $randomNumber;
+    }
+
+    public function generateplayers(EntityManagerInterface $entityManager){
+        $faker=Factory::create();
+        $gender='male';
+        $assignedNumbers=[];
+        $randomNumber = rand(1, 90);
+//        while(in_array($randomNumber,$assignedNumbers)){
+//            $randomNumber = rand(1, 90);
+//        }
+        $assignedNumbers[] = $randomNumber;
+        if(sizeof($this->getMembers())<11){
+            $player=new Member();
+            $player->setName($faker->name($gender));
+            $player->setAge(rand(18,38));
+            $player->setRole("Goalkeeper");
+            $player->setTeamId($this);
+            $player->setShirtNumber(1);
+            $entityManager->persist($player);
+
+        for($x=0;$x<4;$x++) {
+            $player = new Member();
+            $player->setName($faker->name($gender));
+            $player->setAge(rand(18, 38));
+            $player->setRole("Defender");
+            $player->setTeamId($this);
+            $player->setShirtNumber($this->generateShirtNumber($randomNumber, $assignedNumbers));
+            $assignedNumbers[] = $player->getShirtNumber();
+            $entityManager->persist($player);
+        }
+
+            for ($x = 0; $x < 3; $x++) {
+                $player = new Member();
+                $player->setName($faker->name($gender));
+                $player->setAge(rand(18, 38));
+                $player->setRole("Midfielder");
+                $player->setTeamId($this);
+                $player->setShirtNumber($this->generateShirtNumber($randomNumber, $assignedNumbers));
+                $assignedNumbers[] = $player->getShirtNumber();
+                $entityManager->persist($player);
+            }
+            for ($x = 0; $x < 3; $x++) {
+                $player = new Member();
+                $player->setName($faker->name($gender));
+                $player->setAge(rand(18, 38));
+                $player->setRole("Striker");
+                $player->setTeamId($this);
+                $player->setShirtNumber($this->generateShirtNumber($randomNumber, $assignedNumbers));
+                $assignedNumbers[] = $player->getShirtNumber();
+                $entityManager->persist($player);
+            }
+
+
+    }}
 
     public function getId(): ?int
     {

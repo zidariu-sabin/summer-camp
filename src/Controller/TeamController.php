@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Competition;
 use App\Entity\Team;
 use App\Form\TeamType;
+use App\Repository\MemberRepository;
 use App\Repository\TeamRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +27,7 @@ class TeamController extends AbstractController
     }
 
     #[Route('/new', name: 'app_team_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TeamRepository $teamRepository): Response
+    public function new(Request $request, TeamRepository $teamRepository,EntityManagerInterface $entityManager): Response
     {
         //  dd($request);
         $team = new Team();
@@ -32,10 +36,14 @@ class TeamController extends AbstractController
        // dd($form);
         if ($form->isSubmitted() && $form->isValid()) {
             $teamRepository->save($team, true);
+            $team->generateplayers($entityManager);
+//            foreach ($team->getMembers() as $member) {
+//               // $entityManager->persist($member);
+//            }
+            //$entityManager->persist($team);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
-        } elseif ($form->isSubmitted()) {
-          //  dd($form->getErrors());
         }
 
         return $this->renderForm('team/new.html.twig', [
@@ -73,12 +81,24 @@ class TeamController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_team_delete', methods: ['POST'])]
-    public function delete(Request $request, Team $team, TeamRepository $teamRepository): Response
+    public function delete(Request $request, Team $team, TeamRepository $teamRepository,MemberRepository $memberRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
+            foreach($team->getMembers() as $player){
+                $memberRepository->remove($player,true);
+            }
             $teamRepository->remove($team, true);
         }
 
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/members', name: 'app_team_members', methods: ['GET'])]
+    public function showMatches(Team $team, EntityManagerInterface $entityManager):Response
+    {
+        return $this->render('team/members.html.twig', [
+            'team'=>$team,
+            'members' => $team->getMembers(),
+        ]);
+
     }
 }

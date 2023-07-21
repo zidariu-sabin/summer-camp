@@ -27,6 +27,9 @@ class Member
     #[ORM\Column(length: 255)]
     private ?int $age = null;
 
+    #[ORM\Column]
+    private ?int $shirtNumber = null;
+
 
     public function getId(): ?int
     {
@@ -77,6 +80,18 @@ class Member
     public function setAge(int $age): static
     {
         $this->age = $age;
+
+        return $this;
+    }
+
+    public function getShirtNumber(): ?int
+    {
+        return $this->shirtNumber;
+    }
+
+    public function setShirtNumber(int $shirtNumber): static
+    {
+        $this->shirtNumber = $shirtNumber;
 
         return $this;
     }

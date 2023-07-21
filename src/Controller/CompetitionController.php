@@ -37,7 +37,7 @@ class CompetitionController extends AbstractController
                 $entityManager->persist($match);
             }
 
-           // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($competition);
             $entityManager->flush();
 
@@ -53,21 +53,21 @@ class CompetitionController extends AbstractController
     #[Route('/{id}', name: 'app_competition_show', methods: ['GET'])]
     public function show(Competition $competition,EntityManagerInterface $entityManager): Response
     {
-            $teams=$competition->getTeams()->toArray();
+        $teams=$competition->getTeams()->toArray();
         usort($teams, function($a, $b) {
             $check1=$b->getpoints_scored() == $a->getpoints_scored();
             if($check1==true)
-            return$b->getgoal_average() <=> $a->getgoal_average() ;
+                return$b->getgoal_average() <=> $a->getgoal_average() ;
             else return $b->getpoints_scored() <=> $a->getpoints_scored();
         });
-            $competition->calculatestats();
-            $competition->calculateGoalAverage();
-            $competition->calculatepoints();
-           // $entityManager->persist($competition);
+        $competition->calculatestats();
+        $competition->calculateGoalAverage();
+        $competition->calculatepoints();
+        // $entityManager->persist($competition);
         foreach ($competition->getTeams() as $team) {
             $entityManager->persist($team);
         }
-            $entityManager->flush();
+        $entityManager->flush();
 
         return $this->render('competition/show.html.twig', [
             'competition' => $competition,
@@ -97,12 +97,21 @@ class CompetitionController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$competition->getId(), $request->request->get('_token'))) {
             foreach($competition->getMatches() as $match){
-            $matchesRepository->remove($match,true);
+                $matchesRepository->remove($match,true);
             }
             $competitionRepository->remove($competition, true);
         }
 
         return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/{id}/matches', name: 'app_competition_matches', methods: ['GET'])]
+    public function showMatches(Competition $competition, EntityManagerInterface $entityManager):Response
+    {
+        return $this->render('competition/matches.html.twig', [
+            'competition'=>$competition,
+            'matches' => $competition->getMatches(),
+        ]);
+
     }
 
     private function getDoctrine()

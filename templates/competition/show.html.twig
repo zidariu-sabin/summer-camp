@@ -2,7 +2,8 @@
 {% block title %}Competition{% endblock %}
 
 {% block body %}
-    <h1>Standings</h1>
+    <h1>{{ competition.name }}</h1>
+    <h2>Standings</h2>
 
 
     <table class="table">
@@ -35,10 +36,10 @@
         </tbody>
 
     </table>
-
-    <a href="{{ path('app_competition_index') }}">back to list</a>
-
-    <a href="{{ path('app_competition_edit', {'id': competition.id}) }}">edit</a>
-
+    <ul style="list-style-type: none">
+        <li><a class="btn btn-outline-dark" href="{{ path('app_competition_matches',{'id': competition.id}) }}">See matches</a></li>
+        <li><a class="btn btn-outline-dark" href="{{ path('app_competition_index') }}">back to list</a></li>
+        <li><a class="btn btn-outline-dark" href="{{ path('app_competition_edit', {'id': competition.id}) }}">edit</a></li>
+    </ul>
     {{ include('competition/_delete_form.html.twig') }}
 {% endblock %}

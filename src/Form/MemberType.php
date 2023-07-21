@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,8 +14,20 @@ class MemberType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('role')
+            ->add('role', ChoiceType::class,[
+                'choices'=>[
+                    'Goalkeeper'=>'Goalkeeper',
+                    'Defender'=>'Defender',
+                    'Midfielder'=>'Midfielder',
+                    'Striker'=>'Striker',
+                ]
+            ])
             ->add('age')
+            //            ->add('sponsors',EntityType::class, array(
+//                'class'    =>Sponsor::class,
+//                'expanded' =>true,
+//                'multiple' =>true,
+//            ))
             ->add('team_id')
         ;
     }

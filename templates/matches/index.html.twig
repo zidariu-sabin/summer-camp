@@ -27,9 +27,9 @@
             </tr>
             <tr>
 
-                <td>
-                    <a href="{{ path('app_matches_show', {'id': match.id}) }}">show</a>
-                    <a href="{{ path('app_matches_edit', {'id': match.id}) }}">edit</a>
+                <td class="border-0">
+                    <a class="btn btn-outline-dark" href="{{ path('app_matches_show', {'id': match.id}) }}">View details</a>
+                    <a class="btn btn-outline-dark" href="{{ path('app_matches_edit', {'id': match.id}) }}">Update scores</a>
                 </td>
             </tr>
         {% else %}
@@ -40,5 +40,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_matches_new') }}">Create new</a>
+{#    <a href="{{ path('app_matches_new') }}">Create new</a>#}
 {% endblock %}
